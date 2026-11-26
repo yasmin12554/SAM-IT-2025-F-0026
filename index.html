@@ -1,0 +1,364 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Student Marks & Grade Calculator</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 16px;
+        background: darkgray;
+        font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        color: #1c1c1c;
+      }
+      .card {
+        max-width: 480px;
+        margin: 0 auto;
+        padding: 24px 22px;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(20, 40, 80, 0.12);
+      }
+      h1 {
+        text-align: center;
+        font-size: 26px;
+        margin: 0 0 18px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 18px 0 8px;
+      }
+      h3 {
+        font-size: 17px;
+        margin: 18px 0 8px;
+      }
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 16px;
+        border: 1px solid #c5ccd8;
+        border-radius: 8px;
+        background: #fff;
+      }
+      input:focus {
+        outline: 2px solid #1a4a8a;
+        border-color: #1a4a8a;
+      }
+      input[type="radio"],
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #1a4a8a;
+        vertical-align: middle;
+        margin-right: 4px;
+      }
+      label {
+        margin-right: 16px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 18px;
+        font-size: 15px;
+      }
+      th,
+      td {
+        border: 1px solid #d5dbe6;
+        padding: 10px;
+        text-align: left;
+      }
+      thead th {
+        background: #eef2f8;
+      }
+      tfoot th {
+        background: #f6f8fc;
+      }
+      td input[type="number"] {
+        padding: 8px;
+      }
+      .grade {
+        font-weight: bold;
+      }
+      .A {
+        color: #1f7a3d;
+      }
+      .B {
+        color: #1a4a8a;
+      }
+      .C {
+        color: #b7791f;
+      }
+      .D {
+        color: #d9730d;
+      }
+      .F {
+        color: #c62828;
+      }
+      .btns {
+        text-align: center;
+        margin-top: 20px;
+      }
+      button {
+        background: darkred;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 26px;
+        font-size: 17px;
+        margin: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: red;
+      }
+      button.secondary {
+        background: #5b6b82;
+      }
+      .message {
+        text-align: center;
+        color: #1f7a3d;
+        font-size: 18px;
+        min-height: 24px;
+      }
+      .info p {
+        margin: 6px 0;
+        font-size: 16px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid #e1e6ef;
+        margin: 16px 0;
+      }
+      @media print {
+        body {
+          background: #fff;
+        }
+        .card {
+          box-shadow: none;
+        }
+        .btns {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h1>Student Marks &amp; Grade Calculator</h1>
+
+      <form id="studentForm">
+        <h3>Name</h3>
+        <input
+          type="text"
+          id="name"
+          placeholder="Enter Student Name"
+          required
+        />
+
+        <br /><br />
+
+        <h3>Gender</h3>
+
+        <input type="radio" name="gender" id="male" value="Male" required />
+        <label for="male">Male</label>
+
+        <input type="radio" name="gender" id="female" value="Female" />
+        <label for="female">Female</label>
+
+        <br /><br />
+
+        <h3>Course</h3>
+
+        <input type="checkbox" name="course" id="hndit" value="HNDIT" />
+        <label for="hndit">HNDIT</label>
+
+        <input type="checkbox" name="course" id="hndse" value="HNDSE" />
+        <label for="hndse">HNDSE</label>
+
+        <input type="checkbox" name="course" id="hndja" value="HNDJA" />
+        <label for="hndja">HNDJA</label>
+
+        <br /><br />
+
+        <table>
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Marks (0-100)</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Machine Learning</td>
+              <td>
+                <input type="number" id="mark1" min="0" max="100" required />
+              </td>
+              <td id="grade1" class="grade">-</td>
+            </tr>
+
+            <tr>
+              <td>Computer Network</td>
+              <td>
+                <input type="number" id="mark2" min="0" max="100" required />
+              </td>
+              <td id="grade2" class="grade">-</td>
+            </tr>
+
+            <tr>
+              <td>Architecture</td>
+              <td>
+                <input type="number" id="mark3" min="0" max="100" required />
+              </td>
+              <td id="grade3" class="grade">-</td>
+            </tr>
+          </tbody>
+
+          <tfoot>
+            <tr>
+              <th colspan="2">Average</th>
+              <th id="average">-</th>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div class="btns">
+          <button type="button" id="calculateBtn">Calculate</button>
+          <button type="submit">Submit</button>
+        </div>
+
+        <p id="message" class="message"></p>
+      </form>
+    </div>
+
+    <script>
+      function getGrade(mark) {
+        if (mark >= 75) {
+          return "A";
+        } else if (mark >= 60) {
+          return "B";
+        } else if (mark >= 45) {
+          return "C";
+        } else if (mark >= 30) {
+          return "D";
+        } else {
+          return "F";
+        }
+      }
+
+      function readMark(id) {
+        let value = document.getElementById(id).value.trim();
+
+        if (value === "") {
+          return null;
+        }
+
+        let mark = Number(value);
+
+        if (isNaN(mark) || mark < 0 || mark > 100) {
+          return null;
+        }
+
+        return mark;
+      }
+
+      function calculate() {
+        let name = document.getElementById("name").value.trim();
+
+        if (name === "") {
+          alert("Please enter the student name.");
+          document.getElementById("name").focus();
+          return false;
+        }
+
+        let mark1 = readMark("mark1");
+        let mark2 = readMark("mark2");
+        let mark3 = readMark("mark3");
+
+        if (mark1 === null || mark2 === null || mark3 === null) {
+          alert("Please enter valid marks between 0 and 100.");
+          return false;
+        }
+
+        [mark1, mark2, mark3].forEach(function (mark, i) {
+          let cell = document.getElementById("grade" + (i + 1));
+          cell.textContent = getGrade(mark);
+          cell.className = "grade " + getGrade(mark);
+        });
+
+        let average = (mark1 + mark2 + mark3) / 3;
+        document.getElementById("average").textContent = average.toFixed(2);
+
+        let message = document.getElementById("message");
+        message.textContent = name + "'s results calculated successfully.";
+
+        return true;
+      }
+
+      document
+        .getElementById("calculateBtn")
+        .addEventListener("click", calculate);
+
+      document
+        .getElementById("studentForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          let courses = [];
+
+          document
+            .querySelectorAll('input[name="course"]:checked')
+            .forEach(function (item) {
+              courses.push(item.value);
+            });
+
+          if (courses.length === 0) {
+            alert("Please select at least one course.");
+            return;
+          }
+
+          if (!calculate()) {
+            return;
+          }
+
+          let name = document.getElementById("name").value.trim();
+          let gender = document.querySelector(
+            'input[name="gender"]:checked',
+          ).value;
+
+          let marks = [readMark("mark1"), readMark("mark2"), readMark("mark3")];
+
+          let subjectNames = [
+            "Machine Learning",
+            "Computer Network",
+            "Architecture",
+          ];
+
+          let student = {
+            name: name,
+            gender: gender,
+            courses: courses,
+            subjects: subjectNames.map(function (subject, i) {
+              return {
+                subject: subject,
+                marks: marks[i],
+                grade: getGrade(marks[i]),
+              };
+            }),
+            average: document.getElementById("average").textContent,
+          };
+
+          sessionStorage.setItem("studentData", JSON.stringify(student));
+
+          window.location.href = "results.html";
+        });
+    </script>
+  </body>
+</html>

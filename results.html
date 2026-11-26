@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Student Results</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 16px;
+        background: darkgray;
+        font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        color: #1c1c1c;
+      }
+      .card {
+        max-width: 480px;
+        margin: 0 auto;
+        padding: 24px 22px;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(20, 40, 80, 0.12);
+      }
+      h1 {
+        text-align: center;
+        font-size: 26px;
+        margin: 0 0 18px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 18px 0 8px;
+      }
+      h3 {
+        font-size: 17px;
+        margin: 18px 0 8px;
+      }
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 16px;
+        border: 1px solid #c5ccd8;
+        border-radius: 8px;
+        background: #fff;
+      }
+      input:focus {
+        outline: 2px solid #1a4a8a;
+        border-color: #1a4a8a;
+      }
+      input[type="radio"],
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #1a4a8a;
+        vertical-align: middle;
+        margin-right: 4px;
+      }
+      label {
+        margin-right: 16px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 18px;
+        font-size: 15px;
+      }
+      th,
+      td {
+        border: 1px solid #d5dbe6;
+        padding: 10px;
+        text-align: left;
+      }
+      thead th {
+        background: #eef2f8;
+      }
+      tfoot th {
+        background: #f6f8fc;
+      }
+      td input[type="number"] {
+        padding: 8px;
+      }
+      .grade {
+        font-weight: bold;
+      }
+      .A {
+        color: #1f7a3d;
+      }
+      .B {
+        color: #1a4a8a;
+      }
+      .C {
+        color: #b7791f;
+      }
+      .D {
+        color: #d9730d;
+      }
+      .F {
+        color: #c62828;
+      }
+      .btns {
+        text-align: center;
+        margin-top: 20px;
+      }
+      button {
+        background: darkred;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 26px;
+        font-size: 17px;
+        margin: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: red;
+      }
+      button.secondary {
+        background: darkred;
+      }
+      button.secondary:hover {
+        background: red;
+      }
+      .message {
+        text-align: center;
+        color: #1f7a3d;
+        font-size: 18px;
+        min-height: 24px;
+      }
+      .info p {
+        margin: 6px 0;
+        font-size: 16px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid #e1e6ef;
+        margin: 16px 0;
+      }
+      @media print {
+        body {
+          background: #fff;
+        }
+        .card {
+          box-shadow: none;
+        }
+        .btns {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h1>Student Result Report</h1>
+
+      <hr />
+
+      <h2>Student Details</h2>
+
+      <div class="info">
+        <p>
+          <b>Name:</b>
+          <span id="studentName"></span>
+        </p>
+
+        <p>
+          <b>Gender:</b>
+          <span id="studentGender"></span>
+        </p>
+
+        <p>
+          <b>Course:</b>
+          <span id="studentCourse"></span>
+        </p>
+      </div>
+
+      <hr />
+
+      <h2>Marks &amp; Grades</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+
+        <tbody id="resultTable"></tbody>
+
+        <tfoot>
+          <tr>
+            <th colspan="2">Average</th>
+            <th id="studentAverage"></th>
+          </tr>
+        </tfoot>
+      </table>
+
+      <p id="resultMessage" class="message"></p>
+
+      <div class="btns">
+        <button type="button" onclick="window.print()">Print Result</button>
+        <button
+          type="button"
+          class="secondary"
+          onclick="window.location.href = 'index.html'"
+        >
+          Back to Home
+        </button>
+      </div>
+    </div>
+
+    <script>
+      let student = null;
+
+      try {
+        student = JSON.parse(sessionStorage.getItem("studentData"));
+      } catch (e) {
+        student = null;
+      }
+
+      if (student === null) {
+        alert("No student data found!");
+        window.location.href = "index.html";
+      } else {
+        document.getElementById("studentName").textContent = student.name;
+        document.getElementById("studentGender").textContent = student.gender;
+        document.getElementById("studentCourse").textContent =
+          student.courses.join(", ");
+
+        let tbody = document.getElementById("resultTable");
+
+        student.subjects.forEach(function (item) {
+          let row = document.createElement("tr");
+
+          [item.subject, item.marks, item.grade].forEach(function (value, i) {
+            let cell = document.createElement("td");
+            cell.textContent = value;
+            if (i === 2) {
+              cell.className = "grade " + value;
+            }
+            row.appendChild(cell);
+          });
+
+          tbody.appendChild(row);
+        });
+
+        document.getElementById("studentAverage").textContent = student.average;
+
+        let message = document.getElementById("resultMessage");
+        message.textContent =
+          student.name + "'s results generated successfully.";
+      }
+    </script>
+  </body>
+</html>
